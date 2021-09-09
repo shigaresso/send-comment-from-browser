@@ -20,11 +20,11 @@ window.onload = function () {
 
     const xhr = new XMLHttpRequest();
     // // POSTでデータを送信した時のサーバーからのレスポンスを取得する
-    xhr.onreadystatechange = () => {
-        if(xhr.readyState === 4 && xhr.status === 200){
-            console.log(JSON.parse(xhr.responseText));
-        }
-    }
+    // xhr.onreadystatechange = () => {
+    //     if(xhr.readyState == 4 && xhr.status == 200){
+    //         console.log(JSON.parse(xhr.responseText));
+    //     }
+    // }
     
     // オブザーバインスタンスを作成
     let observer = new MutationObserver((mutations) => {
@@ -32,9 +32,7 @@ window.onload = function () {
             mutation.addedNodes.forEach((node) => {
                 //console.log(node);
                 let message = getMessage(node);
-                let json = {"comment":message.textContent}
-                // サーバーに送信
-                commentSend(json);
+                commentSend(message.textContent);
             });
         });
     });
@@ -50,20 +48,16 @@ window.onload = function () {
     */
     observer.observe(target, config);
 
-    
     // サーバーにDOMからパースしたコメントを送信
-    function commentSend(comment){
+    function commentSend(comment) {
         xhr.open("POST", "http://localhost:3000/", true);
-        //xhr.responseType = "json";
-        //let commentJSON = JSON.stringify(comment);
-        //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
-        xhr.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8');
-        xhr.withCredentials = true;
+        let data = {data:comment};
+        let json = JSON.stringify(data);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(json);
+        console.log(data);
         xhr.onload = () => {
-            console.log(xhr.textContent);
+            console.log("xhr.textContent");
         }
-        xhr.send(comment);
-        
-        console.log(comment);
     }
 };

@@ -1,19 +1,19 @@
 {
     "manifest_version": 2,
-    "name": "コメントをローカルサーバーへ送信するプログラム",
+    "name": "YouTubeコメントをローカルサーバーへ送信するプログラム",
     "description": "ブラウザ上の配信コメントを、ローカルサーバーへ送信する機能です。",
     "version": "1.00",
     "permissions": [
         "activeTab"
     ],
+    
     "content_scripts": [
         {
             "matches": [
-                "https://www.youtube.com/watch*",
-                "https://www.openrec.tv/live/*"
+                "https://www.youtube.com/watch*"
             ],
             "js": [
-                "YouTubeSendCommentToLocalServer.js", "OpenrecSendCommentToLocalServer.js"
+                "YouTubeSendCommentToLocalServer.js"
             ],
             "run_at": "document_end",
             "all_frames": true
