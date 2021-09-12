@@ -19,20 +19,12 @@ window.onload = function () {
     function getMessage(node) { return node.querySelector('.chat-content') }
 
     const xhr = new XMLHttpRequest();
-    // // POSTでデータを送信した時のサーバーからのレスポンスを取得する
-    // xhr.onreadystatechange = () => {
-    //     if(xhr.readyState == 4 && xhr.status == 200){
-    //         console.log(JSON.parse(xhr.responseText));
-    //     }
-    // }
     
     // オブザーバインスタンスを作成
-    let observer = new MutationObserver((mutations) => {
+    const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             mutation.addedNodes.forEach((node) => {
-                //console.log(node);
-                let message = getMessage(node);
-                commentSend(message.textContent);
+                sendComment({comment:getMessage(node).textContent});
             });
         });
     });
@@ -48,16 +40,11 @@ window.onload = function () {
     */
     observer.observe(target, config);
 
-    // サーバーにDOMからパースしたコメントを送信
-    function commentSend(comment) {
-        xhr.open("POST", "http://localhost:3000/", true);
-        let data = {data:comment};
-        let json = JSON.stringify(data);
+    const sendComment = (message) => {
+        xhr.open("POST", "http://localhost:10010/", true);
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        const json = JSON.stringify(message);
         xhr.send(json);
-        console.log(data);
-        xhr.onload = () => {
-            console.log("xhr.textContent");
-        }
+        console.log(message);
     }
 };

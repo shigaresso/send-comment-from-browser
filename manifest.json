@@ -1,0 +1,25 @@
+{
+    "manifest_version": 2,
+    "name": "コメントをローカルサーバーへ送信するプログラム",
+    "description": "ブラウザ上の配信コメントを、ローカルサーバーへ送信する機能です。",
+    "version": "1.00",
+    "permissions": [
+        "activeTab"
+    ],
+    
+    "content_scripts": [
+        {
+            "matches": ["https://www.openrec.tv/live/*"],
+            "js": ["js/openrec.js"],
+            "run_at": "document_end",
+            "all_frames": true
+        },
+        {
+            "matches": ["https://www.youtube.com/watch?*"],
+            "js": ["js/youtube.js"],
+            "run_at": "document_end",
+            "all_frames": true
+        }
+        
+    ]
+}
