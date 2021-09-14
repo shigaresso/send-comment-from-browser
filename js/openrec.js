@@ -1,6 +1,7 @@
-window.onload = function () {
-    "use strict";
-
+"use strict";
+setTimeout(main, 1000);
+function main() {
+    console.log("読み込み開始");
     // チャット欄のDOMが存在することを確認する為に必要
     let board = document.querySelector('.chat-list-content');
 
@@ -18,13 +19,11 @@ window.onload = function () {
     // コメントのDOM部分の選択
     function getMessage(node) { return node.querySelector('.chat-content') }
 
-    const xhr = new XMLHttpRequest();
-    
     // オブザーバインスタンスを作成
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             mutation.addedNodes.forEach((node) => {
-                sendComment({comment:getMessage(node).textContent});
+                sendComment("http://localhost:10010/", {comment:getMessage(node).textContent});
             });
         });
     });
@@ -40,11 +39,15 @@ window.onload = function () {
     */
     observer.observe(target, config);
 
-    const sendComment = (message) => {
-        xhr.open("POST", "http://localhost:10010/", true);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        const json = JSON.stringify(message);
-        xhr.send(json);
-        console.log(message);
+    const sendComment = async (connectURL, json) => {
+        const response = await fetch(connectURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=UTF-8"
+            },
+            body: JSON.stringify(json)
+        });
+        const data = await response.json();
+        console.log(data);
     }
 };

@@ -2,28 +2,27 @@
 
 /**
  * ローカルサーバーにコメントをJSON形式で送信する
- * @param {JSONオブジェクト} message 
+ * @param {JSONオブジェクト} json
  */
-const sendComment = (message) => {
-    xhr.open("POST", "http://localhost:10010/", true);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    const json = JSON.stringify(message);
-    xhr.send(json);
-    console.log(message);
+const sendComment = async (connectURL, json) => {
+    const response = await fetch(connectURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json;charset=UTF-8"
+        },
+        body: JSON.stringify(json)
+    });
+    const data = await response.json();
+    console.log(data);
 }
 
-// 今のところfetchでコメントの取得を継続させるのは難しいが、インスタンス化が不要なためいつかXMLHttpRequestから変更したい
-// const sendComment = async (message) => {
-    //     const response = await fetch("http://localhost:10010/", {
-    //         mode: "no-cors",
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json;charset=UTF-8"
-    //         },
-    //         body: JSON.stringify(message)
-    //     });
-    //     const data = await response.json();
-    //     console.log(data);
-    // }
+// const sendComment = (json) => {
+//     const xhr = new XMLHttpRequest();
+//     xhr.open("POST", "http://localhost:10010/", true);
+//     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+//     ;
+//     xhr.send(JSON.stringify(json));
+//     console.log(json);
+// }
 
 export { sendComment };

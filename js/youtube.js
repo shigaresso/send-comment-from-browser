@@ -1,8 +1,9 @@
 "use strict";
-const xhr = new XMLHttpRequest();
-window.addEventListener("load", main, false);
+setTimeout(main, 5000);
+
 
 function main() {
+    console.log("読み込みを開始");
     let chatFrame = document.querySelector('#chatframe');
     if (chatFrame == null) setTimeout(main, 1000);
     let target = chatFrame.contentWindow.document.querySelector('#item-offset > #items');
@@ -13,7 +14,7 @@ function main() {
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             mutation.addedNodes.forEach((node) => {
-                sendComment({comment:getMessage(node).textContent});
+                sendComment("http://localhost:10010/", {comment:getMessage(node).textContent});
             });
         });
     });
@@ -28,10 +29,14 @@ function main() {
 // コメント1つ1つのDOMを取得
 const getMessage = (message) => message.querySelector("#message");
 
-const sendComment = (message) => {
-    xhr.open("POST", "http://localhost:10010/", true);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    const json = JSON.stringify(message);
-    xhr.send(json);
-    console.log(message);
+const sendComment = async (connectURL, json) => {
+    const response = await fetch(connectURL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json;charset=UTF-8"
+        },
+        body: JSON.stringify(json)
+    });
+    const data = await response.json();
+    console.log(data);
 }
