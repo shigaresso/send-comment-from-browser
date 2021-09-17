@@ -3,24 +3,25 @@ import { sendComment } from "./http-request";
 import { getMessage } from "./get-message";
 
 
-const extractComment = (serverURL, chatFrame, textFrame, commentFrame = "") => {
-    console.log("読み込みを開始");
-    let frame = document.querySelector(chatFrame);
+const extractComment = (siteAttribute) => {
+    console.log(siteAttribute.hostname);
+    console.log(siteAttribute.commentFrame);
+    let frame = document.querySelector(siteAttribute.chatFrame);
     console.log(`frame:${frame}`)
-    if (frame == null) setTimeout(() =>{extractComment(serverURL, chatFrame, textFrame, commentFrame)}, 1000);
+    if (frame == null) setTimeout(() =>{extractComment(siteAttribute)}, 1000);
     let target;
-    if (commentFrame == "#item-offset > #items") {
-        target = frame.contentWindow.document.querySelector(commentFrame);
-    } else {
+    if (siteAttribute.hostname == "www.openrec.tv") {
         target = frame;
+    } else if (siteAttribute.hostname == "www.youtube.com") {
+        target = frame.contentWindow.document.querySelector(siteAttribute.commentFrame);
     }
     console.log(target)
-    if (target == null) setTimeout(() =>{extractComment(serverURL, chatFrame, textFrame, commentFrame)}, 1000);
+    if (target == null) setTimeout(() =>{extractComment(siteAttribute)}, 1000);
     
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             mutation.addedNodes.forEach((node) => {
-                sendComment(serverURL, {comment:getMessage(node, textFrame).textContent});
+                sendComment(siteAttribute.connectServer, {comment:getMessage(node, siteAttribute.textFrame).textContent});
             });
         });
     });
