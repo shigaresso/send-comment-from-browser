@@ -25,6 +25,12 @@ switch (siteAttribute.hostname) {
         siteAttribute.textFrame = "#message"
         extractComment(siteAttribute);
         break;
+    case "www.twitch.tv":
+        console.log("Twitchです")
+        siteAttribute.chatFrame = ".chat-scrollable-area__message-container";
+        siteAttribute.textFrame = ".text-fragment";
+        extractComment(siteAttribute);
+        break;
     default:
         console.log("拡張機能の使用に失敗しました");
         break;
