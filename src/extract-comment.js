@@ -2,25 +2,25 @@
 import { sendComment } from "./http-request";
 import { getMessage } from "./get-message";
 
-
 const extractComment = (siteAttribute) => {
     console.log(siteAttribute.hostname);
     console.log(siteAttribute.commentFrame);
-    let frame = document.querySelector(siteAttribute.chatFrame);
-    console.log(frame)
+    const frame = document.querySelector(siteAttribute.chatFrame);
+    console.log(frame);
     if (frame == null) {
-        setTimeout(() =>{extractComment(siteAttribute)}, 1000);
+        setTimeout(() => extractComment(siteAttribute), 1000);
         return;
     }
+    // スコープの関係で変数をここで宣言する必要がある。
     let target;
     if (siteAttribute.hostname == "www.youtube.com") {
         target = frame.contentWindow.document.querySelector(siteAttribute.commentFrame);
     } else {
         target = frame;
     }
-    console.log(target)
+    console.log(target);
     if (target == null) {
-        setTimeout(() =>{extractComment(siteAttribute)}, 1000);
+        setTimeout(() => extractComment(siteAttribute), 1000);
         return;
     }
     
