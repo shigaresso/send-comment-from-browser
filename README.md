@@ -9,7 +9,7 @@ https://github.com/shigaresso/comment-flow-server
 実践的な使い方としては、配信者が OBS Studio のブラウザ機能と組み合わせて利用するものとして考えています。  
 背景の緑色はクロマキーを利用し、透過させて下さい。  
 
-以下のように動作します。  
+以下のように動作します。(実際の動きは画像と比較すると、より滑らかに動きます)  
 
 ![3qh3q-b47ne](https://user-images.githubusercontent.com/70837100/147489704-0f082eb9-d88d-4cb5-918e-85063773064d.gif)  
 
