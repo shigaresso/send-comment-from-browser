@@ -56,3 +56,7 @@ Uncaught (in promise) TypeError: Failed to fetch
 ```
 
 このどちらも、サーバー側プログラムを起動させればエラーは解消され、正常に動作します。  
+
+# バージョンについて
+ver 2.0  
+TypeScript 化及び、配信サイト毎にクラスの作成  
